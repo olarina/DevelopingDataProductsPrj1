@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = FALSE)
 Сircle radius depends on place rating
 ```{r, message= FALSE}
 library(leaflet)
-coords = data.frame(labels = c("Stockholm City Library", "Сhildren playground",
+coords = data.frame(names = c("Stockholm City Library", "Сhildren playground",
                              "Stockholm School of Economics", "Observatory grove", "Gym"),
                     lat = c(59.343547, 59.341416, 59.341683, 59.342310, 59.343049),
                     lng = c(18.054710, 18.056175, 18.056795, 18.054675, 18.052057),
@@ -46,7 +46,7 @@ class(myIcons) <- "leaflet_icon_set"
 coords %>%
     leaflet() %>%
     addTiles()  %>%
-    addMarkers(icon = myIcons, popup = paste(coords$labels,"<br>", "rating: ", coords$rating)) %>%
+    addMarkers(~lng, ~lat, icon = myIcons, popup = paste(coords$names,"<br>", "rating: ", coords$rating)) %>%
     addCircles(weight = 1, radius = ~rating*3)
 
 ```
