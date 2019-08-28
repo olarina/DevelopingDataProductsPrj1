@@ -1,0 +1,52 @@
+---
+title: "Just one beautiful area"
+author: "Olga Larina"
+date: "8/28/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+Сircle radius depends on place rating
+```{r, message= FALSE}
+library(leaflet)
+coords = data.frame(labels = c("Stockholm City Library", "Сhildren playground",
+                             "Stockholm School of Economics", "Observatory grove", "Gym"),
+                    lat = c(59.343547, 59.341416, 59.341683, 59.342310, 59.343049),
+                    lng = c(18.054710, 18.056175, 18.056795, 18.054675, 18.052057),
+                    rating = c(4.5, 4.1, 4.6, 5, 3))
+library_icon = makeIcon(
+    iconUrl = "https://image.flaticon.com/icons/png/512/90/90821.png",
+    iconWidth = 36,iconHeight = 36,
+    iconAnchorX = 18, iconAnchorY = 18
+)
+playground_icon = makeIcon(
+    iconUrl = "https://image.flaticon.com/icons/png/512/106/106535.png",
+    iconWidth = 36,iconHeight = 36,
+    iconAnchorX = 18, iconAnchorY = 18
+)
+university_icon = makeIcon(
+    iconUrl = "https://image.flaticon.com/icons/png/512/90/90791.png",
+    iconWidth = 36,iconHeight = 36,
+    iconAnchorX = 18, iconAnchorY = 18
+)
+grove_icon = makeIcon(
+    iconUrl = "https://image.flaticon.com/icons/png/512/112/112879.png",
+    iconWidth = 36,iconHeight = 36,
+    iconAnchorX = 18, iconAnchorY = 18
+)
+playground_gym = makeIcon(
+    iconUrl = "https://image.flaticon.com/icons/png/512/94/94091.png",
+    iconWidth = 36,iconHeight = 36,
+    iconAnchorX = 18, iconAnchorY = 18
+)
+myIcons = list(library_icon, playground_icon, university_icon, grove_icon, playground_gym)
+class(myIcons) <- "leaflet_icon_set"
+coords %>%
+    leaflet() %>%
+    addTiles()  %>%
+    addMarkers(icon = myIcons, popup = paste(coords$labels,"<br>", "rating: ", coords$rating)) %>%
+    addCircles(weight = 1, radius = ~rating*3)
+
+```
